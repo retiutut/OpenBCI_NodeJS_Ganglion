@@ -25,6 +25,7 @@ function errorFunc (err) {
 const impedance = false;
 const accel = false;
 const DO_PACKET_CALCULATIONS = true;
+
 const cycle = () => {
   ganglion.once(k.OBCIEmitterGanglionFound, (peripheral) => {
     // UNCOMMENT BELOW FOR DROPPED PACKET CALCULATIONS...
@@ -88,34 +89,39 @@ const cycle = () => {
       // console.log(`counter: ${accelData[2]}`);
     });
 
-    ganglion.on('impedance', (impedanceObj) => {
-      console.log(`channel ${impedanceObj.channelNumber} has impedance ${impedanceObj.impedanceValue}`);
+    ganglion.on("impedence", impedanceObj => {
+      console.log(
+        `channel ${impedanceObj.channelNumber} has impedance ${
+          impedanceObj.impedanceValue
+        }`
+      );
     });
 
     ganglion.once('ready', () => {
-      // if (accel) {
-      //     ganglion.accelStart()
-      //         .then(() => {
-      //             return ganglion.streamStart();
-      //         })
-      //         .catch(errorFunc);
-      // } else if (impedance) {
-      //     ganglion.impedanceStart().catch(errorFunc);
-      // } else {
-      //
-      // }
-      console.log('ready');
-      setTimeout(() => {
-        console.log('start stream');
-        ganglion.streamStart().catch(errorFunc);
-      }, 2000);
-      // ganglion.disconnect(false)
-      //   .then(() => {
-      //     console.log('disconnected');
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   })
+      if (accel) {
+        ganglion
+          .accelStart()
+          .then(() => {
+            return ganglion.streamStart();
+          })
+          .catch(errorFunc);
+      } else if (impedance) {
+        ganglion.impedanceStart().catch(errorFunc);
+        console.log("DONE IMPEDANCE START!!!!!");
+      } else {
+        console.log('ready');
+        setTimeout(() => {
+          console.log('start stream');
+          ganglion.streamStart().catch(errorFunc);
+        }, 2000);
+        ganglion.disconnect(false)
+          .then(() => {
+              console.log('disconnected');
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      }
     });
     console.log('Date: ', Date.now());
     ganglion.searchStop()
