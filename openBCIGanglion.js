@@ -1052,7 +1052,15 @@ Ganglion.prototype._nobleOnDeviceDiscoveredCallback = function(
 };
 
 Ganglion.prototype._nobleReady = function() {
-  return noble.state === k.OBCINobleStatePoweredOn;
+  try {
+    if (typeof(noble.state) != 'undefined') {
+      return noble.state === k.OBCINobleStatePoweredOn;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error("Noble is not ready or powered on. May not be connected");
+  }
 };
 
 /**
