@@ -1059,7 +1059,7 @@ Ganglion.prototype._nobleReady = function() {
       return false;
     }
   } catch (error) {
-    console.error("Noble is not ready or powered on. May not be connected");
+    console.error("Noble is not ready or powered on. Dongle might not be connected");
   }
 };
 
