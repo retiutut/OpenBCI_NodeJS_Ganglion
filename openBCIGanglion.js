@@ -776,7 +776,7 @@ Ganglion.prototype.write = function(data) {
   return new Promise((resolve, reject) => {
     if (this._sendCharacteristic) {
       if (!Buffer.isBuffer(data)) {
-        data = new Buffer(data);
+        data = Buffer.from(data);
       }
       this._sendCharacteristic.write(data, true, err => {
         if (err) {
@@ -2828,7 +2828,7 @@ Ganglion.prototype._bled112ScanStop = function() {
   if (this.options.verbose) console.log(`Stopping scan`);
   this._scanning = false;
   return this._bled112WriteAndDrain(
-    new Buffer([0x00, 0x00, 0x06, 0x04])
+    Buffer.from([0x00, 0x00, 0x06, 0x04])
   );
 };
 

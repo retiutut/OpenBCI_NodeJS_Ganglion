@@ -93,22 +93,25 @@ const cycle = () => {
     });
 
     ganglion.once('ready', () => {
-      // if (accel) {
-      //     ganglion.accelStart()
-      //         .then(() => {
-      //             return ganglion.streamStart();
-      //         })
-      //         .catch(errorFunc);
-      // } else if (impedance) {
-      //     ganglion.impedanceStart().catch(errorFunc);
-      // } else {
-      //
-      // }
-      console.log('ready');
-      setTimeout(() => {
-        console.log('start stream');
-        ganglion.streamStart().catch(errorFunc);
-      }, 2000);
+      if (accel) {
+        ganglion.accelStart()
+              .then(() => {
+                  return ganglion.streamStart();
+              })
+              .catch(errorFunc);
+      } else if (impedance) {
+        setTimeout(() => {
+          console.log('start impedance check');
+          ganglion.impedanceStart().catch(errorFunc);
+        }, 2000);
+      } else {
+        console.log('ready');
+        setTimeout(() => {
+          console.log('start stream');
+          ganglion.streamStart().catch(errorFunc);
+        }, 2000);
+      }
+      
       // ganglion.disconnect(false)
       //   .then(() => {
       //     console.log('disconnected');
